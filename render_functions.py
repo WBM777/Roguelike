@@ -4,7 +4,7 @@ from enum import Enum
 
 from game_states import GameStates
 
-from menus import character_screen, inventory_menu, level_up_menu
+from menus import character_screen, inventory_menu, level_up_menu, help_menu
 
 
 class RenderOrder(Enum):
@@ -83,6 +83,8 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, m
                libtcod.light_red, libtcod.darker_red)
     libtcod.console_print_ex(panel, 1, 3, libtcod.BKGND_NONE, libtcod.LEFT,
                              'Dungeon level: {0}'.format(game_map.dungeon_level))
+    libtcod.console_print_ex(panel, 1, 5, libtcod.BKGND_NONE, libtcod.LEFT,
+                            'Press h for Controls')
 
     libtcod.console_set_default_foreground(panel, libtcod.light_gray)
     libtcod.console_print_ex(panel, 1, 0, libtcod.BKGND_NONE, libtcod.LEFT,
@@ -103,6 +105,9 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, m
 
     elif game_state == GameStates.CHARACTER_SCREEN:
         character_screen(player, 30, 10, screen_width, screen_height)
+
+    elif game_state == GameStates.HELP_MENU:
+        help_menu(player, 80, 24, screen_width, screen_height)
 
 
 def clear_all(con, entities):

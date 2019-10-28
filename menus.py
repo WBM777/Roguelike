@@ -1,4 +1,7 @@
 import tcod as libtcod
+import pygame
+
+pygame.init()
 
 def menu(con, header, options, width, screen_width, screen_height):
     if len(options) > 26: raise ValueError('Cannot have a menu with more than 26 options.')
@@ -49,12 +52,12 @@ def inventory_menu(con, header, player, inventory_width, screen_width, screen_he
 
 def main_menu(con, background_image, screen_width, screen_height):
     libtcod.image_blit_2x(background_image, 0, 0, 0)
-
+        
     libtcod.console_set_default_foreground(0, libtcod.light_yellow)
     libtcod.console_print_ex(0, int(screen_width / 2), int(screen_height / 2) - 4, libtcod.BKGND_NONE, libtcod.CENTER,
                              'TOMBS OF THE ANCIENT KINGS')
     libtcod.console_print_ex(0, int(screen_width / 2), int(screen_height - 2), libtcod.BKGND_NONE, libtcod.CENTER,
-                             'By Bailey Morris')
+                             'By Bailey Morris & Ryan Smith')
 
     menu(con, '', ['Play a new game', 'Continue last game', 'Quit'], 24, screen_width, screen_height)
 
@@ -90,6 +93,38 @@ def character_screen(player, character_screen_width, character_screen_height, sc
     x = screen_width // 2 - character_screen_width // 2
     y = screen_height // 2 - character_screen_height // 2
     libtcod.console_blit(window, 0, 0, character_screen_width, character_screen_height, 0, x, y, 1.0, 0.7)
+
+def help_menu(player, help_menu_width, help_menu_height, screen_width, screen_height):
+    window = libtcod.console_new(help_menu_width, help_menu_height)
+
+    libtcod.console_set_default_foreground(window, libtcod.white)
+
+    libtcod.console_print_rect_ex(window, 0, 1, help_menu_width, help_menu_height, libtcod.BKGND_NONE,
+                                  libtcod.LEFT, 'Controls')
+    libtcod.console_print_rect_ex(window, 0, 3, help_menu_width, help_menu_height, libtcod.BKGND_NONE,
+                                  libtcod.LEFT, '1. Use arrow Keys or W, A, S, D to move as well as Q, E, Z, C to move diagonaly')
+    libtcod.console_print_rect_ex(window, 0, 5, help_menu_width, help_menu_height, libtcod.BKGND_NONE,
+                                  libtcod.LEFT, '2. Walk into enemies to attack (O is an Orc T is a Troll g is a Goblin)')
+    libtcod.console_print_rect_ex(window, 0, 7, help_menu_width, help_menu_height, libtcod.BKGND_NONE,
+                                  libtcod.LEFT, '3. Walk over items then press G to pick them up (# is a scroll, ! a potion, / is a sword, and ] is a shield)')
+    libtcod.console_print_rect_ex(window, 0, 10, help_menu_width, help_menu_height, libtcod.BKGND_NONE,
+                                  libtcod.LEFT, '4. Walk over stairs and press Shift to go down to the next level (> are stairs)')
+    libtcod.console_print_rect_ex(window, 0, 12, help_menu_width, help_menu_height, libtcod.BKGND_NONE,
+                                  libtcod.LEFT, '5. Press i to open inventory')
+    libtcod.console_print_rect_ex(window, 0, 14, help_menu_width, help_menu_height, libtcod.BKGND_NONE,
+                                  libtcod.LEFT, '6. Alt+Enter for fullscreen')
+    libtcod.console_print_rect_ex(window, 0, 16, help_menu_width, help_menu_height, libtcod.BKGND_NONE,
+                                  libtcod.LEFT, '7. Press C for Character Menu')
+    libtcod.console_print_rect_ex(window, 0, 18, help_menu_width, help_menu_height, libtcod.BKGND_NONE,
+                                  libtcod.LEFT, '8. Use the mouse to target enemies for confusion and fireball scrolls')
+    libtcod.console_print_rect_ex(window, 0, 20, help_menu_width, help_menu_height, libtcod.BKGND_NONE,
+                                  libtcod.LEFT, '9. Esc to return to Title Menu')
+    libtcod.console_print_rect_ex(window, 0, 22, help_menu_width, help_menu_height, libtcod.BKGND_NONE,
+                                  libtcod.LEFT, '10. Press l to drop items')
+
+    x = screen_width // 2 - help_menu_width // 2
+    y = screen_height // 2 - help_menu_height // 2
+    libtcod.console_blit(window, 0, 0, help_menu_width, help_menu_height, 0, x, y, 1.0, 0.7)
 
 
 def message_box(con, header, width, screen_width, screen_height):

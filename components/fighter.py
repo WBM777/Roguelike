@@ -1,4 +1,7 @@
 import tcod as libtcod
+from playsound import playsound
+import winsound
+
 
 from game_messages import Message
 
@@ -43,6 +46,7 @@ class Fighter:
 
         self.hp -= amount
 
+        
         if self.hp <= 0:
             results.append({'dead': self.owner, 'xp': self.xp})
 
@@ -60,6 +64,7 @@ class Fighter:
         damage = self.power - target.fighter.defense
 
         if damage > 0:
+            
             results.append({'message': Message('{0} attacks {1} for {2} hit points.'.format(
                 self.owner.name.capitalize(), target.name, str(damage)), libtcod.white)})
             results.extend(target.fighter.take_damage(damage))

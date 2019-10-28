@@ -1,4 +1,5 @@
 import tcod as libtcod
+import winsound
 
 from game_messages import Message
 
@@ -17,8 +18,9 @@ class Inventory:
                 'message': Message('You cannot carry any more, your inventory is full', libtcod.yellow)
             })
         else:
+            winsound.PlaySound('pick_up_item.wav', winsound.SND_ASYNC)
             results.append({
-                'item_added': item,
+                'item_added': item,                
                 'message': Message('You pick up the {0}!'.format(item.name), libtcod.blue)
             })
 

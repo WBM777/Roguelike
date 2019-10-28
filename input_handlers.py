@@ -3,6 +3,8 @@ import tcod as libtcod
 
 from game_states import GameStates
 
+controls_image = libtcod.image_load('controls.png')
+
 
 def handle_keys(key, game_state):
     if game_state == GameStates.PLAYERS_TURN:
@@ -17,6 +19,8 @@ def handle_keys(key, game_state):
         return handle_level_up_menu(key)
     elif game_state == GameStates.CHARACTER_SCREEN:
         return handle_character_screen(key)
+    elif game_state == GameStates.HELP_MENU:
+        return handle_help_menu(key)
 
     return {}
 
@@ -25,23 +29,23 @@ def handle_player_turn_keys(key):
     key_char = chr(key.c)
 
     # Movement keys
-    if key.vk == libtcod.KEY_UP or key_char == 'k':
+    if key.vk == libtcod.KEY_UP or key_char == 'w':
         return {'move': (0, -1)}
-    elif key.vk == libtcod.KEY_DOWN or key_char == 'j':
+    elif key.vk == libtcod.KEY_DOWN or key_char == 's':
         return {'move': (0, 1)}
-    elif key.vk == libtcod.KEY_LEFT or key_char == 'h':
+    elif key.vk == libtcod.KEY_LEFT or key_char == 'a':
         return {'move': (-1, 0)}
-    elif key.vk == libtcod.KEY_RIGHT or key_char == 'l':
+    elif key.vk == libtcod.KEY_RIGHT or key_char == 'd':
         return {'move': (1, 0)}
-    elif key_char == 'y':
+    elif key_char == 'q':
         return {'move': (-1, -1)}
-    elif key_char == 'u':
+    elif key_char == 'e':
         return {'move': (1, -1)}
-    elif key_char == 'b':
-        return {'move': (-1, 1)}
-    elif key_char == 'n':
-        return {'move': (1, 1)}
     elif key_char == 'z':
+        return {'move': (-1, 1)}
+    elif key_char == 'c':
+        return {'move': (1, 1)}
+    elif key_char == 'x':
         return {'wait': True}
 
     if key_char == 'g':
@@ -50,14 +54,17 @@ def handle_player_turn_keys(key):
     elif key_char == 'i':
         return {'show_inventory': True}
 
-    elif key_char == 'd':
+    elif key_char == 'l':
         return {'drop_inventory': True}
 
-    elif key.vk == libtcod.KEY_ENTER:
+    elif key.vk == libtcod.KEY_SHIFT:
         return {'take_stairs': True}
 
-    elif key_char == 'c':
+    elif key_char == 'p':
         return {'show_character_screen': True}
+
+    elif key_char == 'h':
+        return {'show_help_menu': True}
 
     if key.vk == libtcod.KEY_ENTER and key.lalt:
         # Alt+Enter: toggle full screen
@@ -114,6 +121,7 @@ def handle_main_menu(key):
 
     if key_char == 'a':
         return {'new_game': True}
+        pygame.mixer.music.stop()
     elif key_char == 'b':
         return {'load_game': True}
     elif key_char == 'c' or key.vk == libtcod.KEY_ESCAPE:
@@ -142,6 +150,11 @@ def handle_character_screen(key):
 
     return {}
 
+def handle_help_menu(key):
+    if key.vk == libtcod.KEY_ESCAPE:
+        return{'exit': True}
+    
+    return {}
 
 def handle_mouse(mouse):
     (x, y) = (mouse.cx, mouse.cy)

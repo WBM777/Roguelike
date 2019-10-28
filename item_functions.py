@@ -1,4 +1,5 @@
 import tcod as libtcod
+import winsound
 
 from components.ai import ConfusedMonster
 
@@ -15,13 +16,15 @@ def heal(*args, **kwargs):
         results.append({'consumed': False, 'message': Message('You are already at full health', libtcod.yellow)})
     else:
         entity.fighter.heal(amount)
+        winsound.PlaySound('drink_potion.wav', winsound.SND_ASYNC)
         results.append({'consumed': True, 'message': Message('Your wounds start to feel better!', libtcod.green)})
 
     return results
 
 
-def cast_lightning(*args, **kwargs):
+def cast_lightning(*args, **kwargs):    
     caster = args[0]
+    winsound.PlaySound('lightningspell.wav', winsound.SND_ASYNC)
     entities = kwargs.get('entities')
     fov_map = kwargs.get('fov_map')
     damage = kwargs.get('damage')
@@ -49,7 +52,9 @@ def cast_lightning(*args, **kwargs):
     return results
 
 
-def cast_fireball(*args, **kwargs):
+
+def cast_fireball(*args, **kwargs):    
+    winsound.PlaySound('fireball.wav', winsound.SND_ASYNC)
     entities = kwargs.get('entities')
     fov_map = kwargs.get('fov_map')
     damage = kwargs.get('damage')
@@ -73,7 +78,9 @@ def cast_fireball(*args, **kwargs):
     return results
 
 
+
 def cast_confuse(*args, **kwargs):
+    winsound.PlaySound('condusionscroll.wav', winsound.SND_ASYNC)
     entities = kwargs.get('entities')
     fov_map = kwargs.get('fov_map')
     target_x = kwargs.get('target_x')
